@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mission11_Openshaw_Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83411ae6008ec415f1e6206e8cd5b508617364a9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4feb4d87697243952f775572af06abf5a7e27bdf")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mission11_Openshaw_Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mission11_Openshaw_Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
