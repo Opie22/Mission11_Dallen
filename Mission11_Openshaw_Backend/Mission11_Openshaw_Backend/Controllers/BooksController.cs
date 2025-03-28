@@ -1,9 +1,8 @@
 using Mission11_Openshaw_Backend.Models;
-
-namespace Mission11_Openshaw_Backend.Controllers;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
+namespace Mission11_Openshaw_Backend.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -17,20 +16,40 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Book>>> GetBooks(
-        [FromQuery] int page = 1, 
-        [FromQuery] int pageSize = 5, 
-        [FromQuery] string sortBy = "Title", 
-        [FromQuery] bool ascending = true)
+    public IActionResult GetBooks(
+        [FromQuery(Name = "currentPage")] int currentPage = 1,
+        int pageSize = 5,
+        string sortBy = "Title",
+        bool ascending = true)
     {
-        var booksQuery = _context.Books.AsQueryable();
+        var query = _context.Books.AsQueryable();
 
-        // Sorting
-        booksQuery = ascending ? booksQuery.OrderBy(b => EF.Property<object>(b, sortBy))
-            : booksQuery.OrderByDescending(b => EF.Property<object>(b, sortBy));
+        // Sorting logic
+        switch (sortBy)
+        {
+            case "Author":
+                query = ascending ? query.OrderBy(b => b.Author) : query.OrderByDescending(b => b.Author);
+                break;
+            case "Price":
+                query = ascending ? query.OrderBy(b => b.Price) : query.OrderByDescending(b => b.Price);
+                break;
+            default:
+                query = ascending ? query.OrderBy(b => b.Title) : query.OrderByDescending(b => b.Title);
+                break;
+        }
 
-        // Pagination
-        var books = await booksQuery.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-        return Ok(books);
+        var totalCount = query.Count();
+
+        var pagedBooks = query
+            .Skip((currentPage - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        // Optional: include total count for frontend pagination
+        return Ok(new
+        {
+            books = pagedBooks,
+            totalCount = totalCount
+        });
     }
 }

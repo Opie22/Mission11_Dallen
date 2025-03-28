@@ -3,30 +3,30 @@ import axios from "axios";
 import { Table, Pagination, Form } from "react-bootstrap";
 import { Book } from "../models/Book";
 
-
 const BookList: React.FC = () => {
     const [books, setBooks] = useState<Book[]>([]);
-    const [page, setPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const [sortBy, setSortBy] = useState("Title");
     const [ascending, setAscending] = useState(true);
 
     useEffect(() => {
         fetchBooks();
-    }, [page, pageSize, sortBy, ascending]);
+    }, [currentPage, pageSize, sortBy, ascending]);
 
     const fetchBooks = async () => {
         const response = await axios.get(`http://localhost:5050/api/books`, {
-            params: { page, pageSize, sortBy, ascending }
+          params: { currentPage, pageSize, sortBy, ascending }
         });
-        setBooks(response.data);
-    };
+        setBooks(response.data.books); // <— also updated here
+      };
+      
 
     return (
         <div className="container mt-4">
             <h2 className="mb-3">Bookstore</h2>
 
-            <Form.Select onChange={(e) => setSortBy(e.target.value)}>
+            <Form.Select onChange={(e) => setSortBy(e.target.value)} className="mb-3" value={sortBy}>
                 <option value="Title">Title</option>
                 <option value="Author">Author</option>
                 <option value="Price">Price</option>
@@ -35,7 +35,9 @@ const BookList: React.FC = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th onClick={() => setAscending(!ascending)}>Title</th>
+                        <th onClick={() => setAscending(!ascending)} style={{ cursor: "pointer" }}>
+                            Title {ascending ? "▲" : "▼"}
+                        </th>
                         <th>Author</th>
                         <th>Publisher</th>
                         <th>ISBN</th>
@@ -44,7 +46,7 @@ const BookList: React.FC = () => {
                         <th>Price</th>
                     </tr>
                 </thead>
-                
+
                 <tbody>
                     {books.map(book => (
                         <tr key={book.bookID}>
@@ -53,7 +55,7 @@ const BookList: React.FC = () => {
                             <td>{book.publisher}</td>
                             <td>{book.isbn}</td>
                             <td>{book.classification}</td>
-                            <td>{book.PageCount}</td>
+                            <td>{book.pageCount}</td>
                             <td>${book.price.toFixed(2)}</td>
                         </tr>
                     ))}
@@ -61,12 +63,13 @@ const BookList: React.FC = () => {
             </Table>
 
             <Pagination>
-                <Pagination.Prev onClick={() => setPage(prev => Math.max(1, prev - 1))} />
-                <Pagination.Item>{page}</Pagination.Item>
-                <Pagination.Next onClick={() => setPage(prev => prev + 1)} />
+                <Pagination.Prev onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))} />
+                <Pagination.Item>{currentPage}</Pagination.Item>
+                <Pagination.Next onClick={() => setCurrentPage(prev => prev + 1)} />
             </Pagination>
 
-            <Form.Select onChange={(e) => setPageSize(Number(e.target.value))}>
+
+            <Form.Select onChange={(e) => setPageSize(Number(e.target.value))} className="mt-3" value={pageSize}>
                 <option value="5">5</option>
                 <option value="10">10</option>
             </Form.Select>
