@@ -56,5 +56,17 @@ public class BooksController : ControllerBase
             totalCount = totalCount
         });
     }
+    
+    [HttpGet("categories")]
+    public IActionResult GetCategories()
+    {
+        var categories = _context.Books
+            .Select(b => b.Category)
+            .Distinct()
+            .OrderBy(c => c)
+            .ToList();
+
+        return Ok(categories);
+    }
 
 }
