@@ -20,11 +20,16 @@ public class BooksController : ControllerBase
         [FromQuery(Name = "currentPage")] int currentPage = 1,
         int pageSize = 5,
         string sortBy = "Title",
-        bool ascending = true)
+        bool ascending = true,
+        string? category = null)
     {
         var query = _context.Books.AsQueryable();
 
-        // Sorting logic
+        if (!string.IsNullOrEmpty(category))
+        {
+            query = query.Where(b => b.Category == category);
+        }
+
         switch (sortBy)
         {
             case "Author":
@@ -45,11 +50,11 @@ public class BooksController : ControllerBase
             .Take(pageSize)
             .ToList();
 
-        // Optional: include total count for frontend pagination
         return Ok(new
         {
             books = pagedBooks,
             totalCount = totalCount
         });
     }
+
 }
