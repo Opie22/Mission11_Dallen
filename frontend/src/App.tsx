@@ -27,22 +27,40 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BookList from "./components/BookList";
-import CartPage from "./components/CartPage"; // ⬅️ you'll create this
+import CartSummary from "./components/CartSummary";
+import CartPage from "./components/CartPage";
 import { CartProvider } from "./context/CartContext";
-import { Container } from "react-bootstrap";
-import { Routes, Route } from "react-router-dom";
+import { Container, Row, Col } from "react-bootstrap";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 const App: React.FC = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
     <CartProvider>
-      <Container className="mt-4">
-        <Routes>
-          <Route path="/" element={<BookList />} />
-          <Route path="/cart" element={<CartPage />} />
-        </Routes>
+      <Container fluid className="mt-4">
+        {isHomePage ? (
+          <Row className="gx-4"> {/* added gutter spacing */}
+            <Col md={8}>
+              <BookList />
+            </Col>
+            <Col md={4}>
+              <div className="position-sticky" style={{ top: '1rem' }}>
+                <CartSummary /> {/* default is no footer */}
+              </div>
+            </Col>
+          </Row>
+        ) : (
+          <Routes>
+            <Route path="/cart" element={<CartPage />} />
+          </Routes>
+        )}
       </Container>
     </CartProvider>
   );
 };
 
 export default App;
+
+

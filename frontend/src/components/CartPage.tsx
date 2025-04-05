@@ -3,10 +3,12 @@ import CartSummary from "./CartSummary";
 
 const CartPage: React.FC = () => {
   return (
-    <div>
+    <div className="position-relative">
       <h2>Shopping Cart</h2>
-      <CartSummary />
+      <CartSummary showContinueShopping={true} />
+
     </div>
+    
   );
 };
 
