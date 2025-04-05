@@ -44,7 +44,7 @@ const CartPage: React.FC = () => {
 
       <h4>Total: ${getTotal().toFixed(2)}</h4>
 
-      <button className="btn btn-success me-2">Checkout</button>
+      
       <button className="btn btn-secondary" onClick={() => navigate("/")}>
         Continue Shopping
       </button>
