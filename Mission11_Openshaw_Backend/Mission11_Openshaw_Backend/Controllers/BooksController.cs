@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Mission11_Openshaw_Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +57,7 @@ public class BooksController : ControllerBase
             totalCount = totalCount
         });
     }
-    
+
     [HttpGet("categories")]
     public IActionResult GetCategories()
     {
@@ -69,4 +70,57 @@ public class BooksController : ControllerBase
         return Ok(categories);
     }
 
+    // POST: /api/books
+    [HttpPost]
+    public IActionResult AddBook([FromBody] Book book)
+    {
+        _context.Books.Add(book);
+        _context.SaveChanges();
+        return CreatedAtAction(nameof(GetBooks), new { id = book.BookID }, book);
+    }
+
+    // PUT: /api/books/{id}
+    [HttpPut("{id}")]
+    public IActionResult UpdateBook(int id, [FromBody] Book updatedBook)
+    {
+        var existing = _context.Books.Find(id);
+        if (existing == null) return NotFound();
+
+        existing.Title = updatedBook.Title;
+        existing.Author = updatedBook.Author;
+        existing.Publisher = updatedBook.Publisher;
+        existing.ISBN = updatedBook.ISBN;
+        existing.Classification = updatedBook.Classification;
+        existing.Category = updatedBook.Category;
+        existing.PageCount = updatedBook.PageCount;
+        existing.Price = updatedBook.Price;
+
+        _context.SaveChanges();
+        return NoContent();
+    }
+
+    // DELETE: /api/books/{id}
+    [HttpDelete("{id}")]
+    public IActionResult DeleteBook(int id)
+    {
+        var book = _context.Books.Find(id);
+        if (book == null) return NotFound();
+
+        _context.Books.Remove(book);
+        _context.SaveChanges();
+        return NoContent();
+    }
+    
+    
+    [HttpGet("all")]
+    public IActionResult GetAllBooks()
+    {
+        var books = _context.Books
+            .OrderBy(b => b.Title)
+            .ToList();
+
+        return Ok(books);
+    }
 }
+
+

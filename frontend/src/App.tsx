@@ -32,6 +32,7 @@ import CartPage from "./components/CartPage";
 import { CartProvider } from "./context/CartContext";
 import { Container, Row, Col } from "react-bootstrap";
 import { Routes, Route, useLocation } from "react-router-dom";
+import AdminBooks from "./components/AdminBooks";
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -40,27 +41,31 @@ const App: React.FC = () => {
   return (
     <CartProvider>
       <Container fluid className="mt-4">
-        {isHomePage ? (
-          <Row className="gx-4"> {/* added gutter spacing */}
-            <Col md={8}>
-              <BookList />
-            </Col>
-            <Col md={4}>
-              <div className="position-sticky" style={{ top: '1rem' }}>
-                <CartSummary /> {/* default is no footer */}
-              </div>
-            </Col>
-          </Row>
-        ) : (
-          <Routes>
-            <Route path="/cart" element={<CartPage />} />
-          </Routes>
-        )}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Row className="gx-4">
+                <Col md={8}>
+                  <BookList />
+                </Col>
+                <Col md={4}>
+                  <div className="position-sticky" style={{ top: '1rem' }}>
+                    <CartSummary />
+                  </div>
+                </Col>
+              </Row>
+            }
+          />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/adminbooks" element={<AdminBooks />} />
+        </Routes>
       </Container>
     </CartProvider>
   );
 };
 
 export default App;
+
 
 
