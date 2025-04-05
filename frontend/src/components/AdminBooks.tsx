@@ -67,7 +67,7 @@ const AdminBooks: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`https://mission13-openshaw-backend-a9e8degpdqcfgbb2.eastus-01.azurewebsites.net/api/books${id}`);
+      await axios.delete(`https://mission13-openshaw-backend-a9e8degpdqcfgbb2.eastus-01.azurewebsites.net/api/books/${id}`);
       fetchBooks();
     } catch (error) {
       console.error("Failed to delete book:", error);
