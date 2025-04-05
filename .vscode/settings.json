@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/98612d87-492d-4b86-b416-c59b993a823b/resourceGroups/appsvc_windows_eastus/providers/Microsoft.Web/sites/Mission13-Openshaw-Backend",
+    "appService.deploySubpath": "Mission11_Openshaw_Backend/Mission11_Openshaw_Backend/publish"
+}
