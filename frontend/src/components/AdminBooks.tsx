@@ -21,7 +21,7 @@ const AdminBooks: React.FC = () => {
   const [editingBookID, setEditingBookID] = useState<number | null>(null);
 
   const fetchBooks = async () => {
-    const response = await axios.get("http://localhost:5050/api/books/all");
+    const response = await axios.get("https://mission13-openshaw-backend-a9e8degpdqcfgbb2.eastus-01.azurewebsites.net/api/books/all");
     setBooks(response.data);
   };
 
@@ -42,9 +42,9 @@ const AdminBooks: React.FC = () => {
 
     try {
       if (editingBookID !== null) {
-        await axios.put(`http://localhost:5050/api/books/${editingBookID}`, bookForm);
+        await axios.put(`https://mission13-openshaw-backend-a9e8degpdqcfgbb2.eastus-01.azurewebsites.net/api/books/${editingBookID}`, bookForm);
       } else {
-        await axios.post("http://localhost:5050/api/books", bookForm);
+        await axios.post("https://mission13-openshaw-backend-a9e8degpdqcfgbb2.eastus-01.azurewebsites.net/api/books", bookForm);
       }
 
       setBookForm({ ...defaultBook });
@@ -67,7 +67,7 @@ const AdminBooks: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:5050/api/books/${id}`);
+      await axios.delete(`https://mission13-openshaw-backend-a9e8degpdqcfgbb2.eastus-01.azurewebsites.net/api/books${id}`);
       fetchBooks();
     } catch (error) {
       console.error("Failed to delete book:", error);

@@ -26,14 +26,14 @@ const BookList: React.FC = () => {
   }, []);
 
   const fetchBooks = async () => {
-    const response = await axios.get(`http://localhost:5050/api/books`, {
+    const response = await axios.get(`https://mission13-openshaw-backend-a9e8degpdqcfgbb2.eastus-01.azurewebsites.net/api/books`, {
       params: { currentPage, pageSize, sortBy, ascending, category: selectedCategory }
     });
     setBooks(response.data.books);
   };
 
   const fetchCategories = async () => {
-    const response = await axios.get(`http://localhost:5050/api/books/categories`);
+    const response = await axios.get(`https://mission13-openshaw-backend-a9e8degpdqcfgbb2.eastus-01.azurewebsites.net/api/books/categories`);
     setCategories(response.data);
   };
 
