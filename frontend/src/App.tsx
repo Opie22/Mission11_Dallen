@@ -31,12 +31,12 @@ import CartSummary from "./components/CartSummary";
 import CartPage from "./components/CartPage";
 import { CartProvider } from "./context/CartContext";
 import { Container, Row, Col } from "react-bootstrap";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AdminBooks from "./components/AdminBooks";
 
 const App: React.FC = () => {
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
+  // const location = useLocation();
+  // const isHomePage = location.pathname === "/";
 
   return (
     <CartProvider>
